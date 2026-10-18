@@ -50,3 +50,30 @@ export const sendRegistrationEmail = async (userEmail, name) => {
         console.error("Error sending email:", error);
     }
 };
+
+export const sendOTPEmail = async (userEmail, otp, type) => {
+    try {
+        const title = "Verify your Backend-ledger/Account"
+        const msg = "Please use the following OTP to verify your new Backend-ledger/Account."
+
+        const mailOptions = {
+            from: process.env.EMAIL_USER,
+            to: userEmail,
+            subject: title,
+            html: `
+          <div style="font-family: Arial, sans-serif; text-align: center; padding: 20px;">
+               <h2 style="color: #111;">${title}</h2>
+               <p style="color: #555; font-size: 16px;">${msg}</p>
+               <div style="margin: 20px auto; padding: 15px; font-size: 24px; font-weight: bolbackground: #f4f4f4; width: max-content; letter-spacing: 5px;">
+                        ${otp}
+               </div>
+               <p style="color: #999; font-size: 12px;">This code expires in 5 minutes. If you didn't request this, please ignore this email.</p>
+           </div>
+            `,
+        };
+        await transporter.sendMail(mailOptions);
+        console.log(`OTP sent to ${userEmail} for ${type}`);
+    } catch (error) {
+        console.error("Error sending OTP email:", error);
+    }
+};

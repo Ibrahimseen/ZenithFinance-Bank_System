@@ -6,14 +6,10 @@ const userSchema = new mongoose.Schema(
     {
         email: {
             type: String,
-            required: [true, 'Email is required'],
-            trim: true,
-            lowercase: true,
-            match: [
-                /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-                'Please provide a valid email address',
-            ],
+            required: true,
             unique: true,
+            lowercase: true,
+            trim: true,
         },
 
         name: {
@@ -36,6 +32,10 @@ const userSchema = new mongoose.Schema(
             default: false,
             immutable: true,
             select: false,
+        },
+        isVerified: {
+            type: Boolean,
+            default: false
         },
     },
     {

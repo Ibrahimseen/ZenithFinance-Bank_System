@@ -16,13 +16,13 @@ const generateOTP = () =>
 const hashOTP = (otp) =>
     crypto.createHash("sha256").update(otp).digest("hex");
 
-const cookieOptions = () => ({
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
-    path: "/",
-    maxAge: COOKIE_MAX_AGE,
-});
+// const cookieOptions = () => ({
+//     httpOnly: true,
+//     secure: process.env.NODE_ENV === "production",
+//     sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+//     path: "/",
+//     maxAge: COOKIE_MAX_AGE,
+// });
 
 const issueAuthCookie = (res, userId) => {
     if (!process.env.JWT_SECRET) {
@@ -35,7 +35,7 @@ const issueAuthCookie = (res, userId) => {
         { expiresIn: "3d" }
     );
 
-    res.cookie("token", token, cookieOptions());
+    res.cookie("token", token)
 };
 
 const publicUser = (user) => ({
@@ -401,7 +401,7 @@ export const Login = async (req, res) => {
 
 export const Logout = (req, res) => {
     res.clearCookie("token", {
-        ...cookieOptions(),
+        // ...cookieOptions(),
         maxAge: undefined,
     });
 
